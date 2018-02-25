@@ -6,5 +6,6 @@
 #define FUCKERS_GRAPHICS_H
 
 void Create_Window();
+///This function is responsible for all graphic output and events
 
 #endif //FUCKERS_GRAPHICS_H

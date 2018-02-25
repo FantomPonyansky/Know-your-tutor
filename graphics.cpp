@@ -1,6 +1,6 @@
 #include <SFML/Graphics.hpp>
 
-void Draw_Fucker(sf::RenderWindow window, std::string Fucker_Name)
+void Draw_Fucker(sf::RenderWindow& window, std::string Fucker_Name)
 {
     sf::Image FuckerImage;
     FuckerImage.loadFromFile(Fucker_Name);
@@ -8,7 +8,7 @@ void Draw_Fucker(sf::RenderWindow window, std::string Fucker_Name)
     FuckerTexture.loadFromImage(FuckerImage);
     sf::Sprite FuckerSprite;
     FuckerSprite.setTexture(FuckerTexture);
-    FuckerSprite.setPosition(0, 0);
+    FuckerSprite.setPosition(200, 100);
     window.draw(FuckerSprite);
 }
 
@@ -20,7 +20,7 @@ void Create_Window()
     while (MainWindow.isOpen())
     {
         //Here must be a lot of drawing different fuckers and some events
-        MainWindow.clear();
+        MainWindow.clear(sf::Color(0, 0, 0, 255));
         Draw_Fucker(MainWindow, "Bek.jpg");
         MainWindow.display();
     }
