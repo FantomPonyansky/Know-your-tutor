@@ -5,7 +5,9 @@
 #ifndef FUCKERS_GRAPHICS_H
 #define FUCKERS_GRAPHICS_H
 
-void Create_Window();
+#include <queue>
+
+void Create_Window(std::queue<std::string>& EventQueue);
 ///This function is responsible for all graphic output and events
 
 #endif //FUCKERS_GRAPHICS_H

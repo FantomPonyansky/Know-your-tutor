@@ -1,23 +1,30 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <fstream>
+#include <queue>
 
 sf::Event event;
+unsigned int counter = 10;
 
-void Send_Event_To_Queue()
-//This function creates event ID and sends it to queue. I still haven't decide what I shall give it.
+std::queue<std::string> Create_Fucker_Queue()
+//This function creates queue which is containing names of pictures with fuckers
 {
+    std::queue<std::string> Fucker_Queue;
+    Fucker_Queue.push("Bek.jpeg");
     //FIXME
+    return Fucker_Queue;
 }
 
 unsigned int Get_Screen_Width()
 {
     //FIXME
+    return 400;
 }
 
 unsigned int Get_Screen_Height()
 {
     //FIXME
+    return 700;
 }
 
 void Draw_Fucker(sf::RenderWindow& window, std::string Fucker_Name)
@@ -33,9 +40,21 @@ void Draw_Fucker(sf::RenderWindow& window, std::string Fucker_Name)
     window.draw(FuckerSprite);
 }
 
-void Battle(sf::RenderWindow& window, std::string Fucker_Name) {
+void Battle(sf::RenderWindow& window, std::queue<std::string> Fucker_Queue, std::queue<std::string>& EventQueue) {
+    std::string Fucker_Name = Fucker_Queue.front();
+    Fucker_Queue.pop();
+    sf::Text How_Many_Tutors_Left;
+    sf::Font font;
+    font.loadFromFile("ARIAL.TTF");
+    How_Many_Tutors_Left.setFont(font);
+    How_Many_Tutors_Left.setColor(sf::Color::Magenta);
+    How_Many_Tutors_Left.setCharacterSize(18);
+    How_Many_Tutors_Left.setPosition(5, 5);
+    std::string Warning_Sign = "Tutors left: " + std::to_string(counter);
+    How_Many_Tutors_Left.setString(Warning_Sign);
     while (window.isOpen()) {
         window.clear();
+        window.draw(How_Many_Tutors_Left);
         Draw_Fucker(window, Fucker_Name);
         window.display();
         while (window.pollEvent(event)) {
@@ -54,7 +73,7 @@ void Battle(sf::RenderWindow& window, std::string Fucker_Name) {
                 }
 
                 case sf::Event::Closed:
-                    //FIXME here must be sending event "Close" to main queue
+                    EventQueue.push("30");
                     window.close();
                     break;
             }
@@ -62,32 +81,47 @@ void Battle(sf::RenderWindow& window, std::string Fucker_Name) {
     }
 }
 
-void Start_Game(sf::RenderWindow& window)
+void Start_Game(sf::RenderWindow& window, std::queue<std::string>& EventQueue)
 //This function asks main who is the first fucker and tell audio thread to start
 {
     while (window.isOpen())
     {
         std::string First_Fucker_Name = "Bek.jpeg";
-        Send_Event_To_Queue();
-        //First_Fucker_Name = Who_is_Now();             //FIXME this function must give back first fuckers name
-        Battle(window, First_Fucker_Name);
+        EventQueue.push("20");
+        std::queue<std::string> Fucker_Queue = Create_Fucker_Queue();
+        Battle(window, Fucker_Queue, EventQueue);
     }
 }
 
-void Create_Window()
+std::string Get_Rules_From_File(){
+
+    std::string sf;
+    std::ifstream inf;
+
+    inf.open ( "Rules.txt" );
+
+    getline ( inf, sf, '\0' );
+
+    inf.close();
+
+    return sf;
+
+}
+
+void Create_Window(std::queue<std::string>& EventQueue)
 //This function only display rules and call game-function when start-key pressed and close if close-key pressed
 {
-    unsigned int screen_width = 400;
-    unsigned int screen_height = 700;
+    unsigned int screen_width = Get_Screen_Width();
+    unsigned int screen_height = Get_Screen_Height();
     sf::RenderWindow MainWindow(sf::VideoMode(screen_width, screen_height), "My window", sf::Style::Close);
     sf::Text rules;
     sf::Font font;
-    font.loadFromFile("Admiration Pains.ttf");
+    font.loadFromFile("ARIAL.TTF");
     rules.setFont(font);
     rules.setColor(sf::Color::Magenta);
     rules.setCharacterSize(18);
     rules.setPosition(5, 5);
-    std::string RulesInString = "Here must be rules"; //FIXME here must be reading rules from file
+    std::string RulesInString = Get_Rules_From_File();
     rules.setString(RulesInString);
     while (MainWindow.isOpen()) {
 
@@ -102,17 +136,17 @@ void Create_Window()
                 case sf::Event::KeyPressed: {
 
                     if (event.key.code == sf::Keyboard::Escape) {
-                        //FIXME here must be sending event "Close" to main queue
+                        EventQueue.push("30");
                         MainWindow.close();
                     }
 
                     if (event.key.code == sf::Keyboard::S) {
-                        Start_Game(MainWindow);
+                        Start_Game(MainWindow, EventQueue);
                     }
                 }
 
                 case sf::Event::Closed:
-                    //FIXME here must be sending event "Close" to main queue
+                    EventQueue.push("30");
                     MainWindow.close();
                     break;
 

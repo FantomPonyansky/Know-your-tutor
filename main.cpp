@@ -3,6 +3,7 @@
 #include "graphics.h"
 
 int main() {
-    Create_Window();
+    std::queue<std::string> EventQueue;
+    Create_Window(EventQueue);
     return 0;
 }
