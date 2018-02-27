@@ -4,6 +4,22 @@
 
 sf::Event event;
 
+void Send_Event_To_Queue()
+//This function creates event ID and sends it to queue. I still haven't decide what I shall give it.
+{
+    //FIXME
+}
+
+unsigned int Get_Screen_Width()
+{
+    //FIXME
+}
+
+unsigned int Get_Screen_Height()
+{
+    //FIXME
+}
+
 void Draw_Fucker(sf::RenderWindow& window, std::string Fucker_Name)
 //This function gets window and draw in it picture of fucker, whose name is also given
 {
@@ -17,36 +33,45 @@ void Draw_Fucker(sf::RenderWindow& window, std::string Fucker_Name)
     window.draw(FuckerSprite);
 }
 
-void Game_Graphics(sf::RenderWindow& window)
-//This is the main part of the game drawer. This function catches events, draw fuckers and so on.
-{
-    while (window.isOpen())
-    {
+void Battle(sf::RenderWindow& window, std::string Fucker_Name) {
+    while (window.isOpen()) {
         window.clear();
-        Draw_Fucker(window, "Bek.jpeg"); //FIXME this function must start first battle
+        Draw_Fucker(window, Fucker_Name);
         window.display();
         while (window.pollEvent(event)) {
 
             switch (event.type) {
 
+                case sf::Event::KeyPressed: {
+
+                    if (event.key.code == sf::Keyboard::Y) {
+                        //FIXME
+                    }
+
+                    if (event.key.code == sf::Keyboard::N) {
+                        //FIXME
+                    }
+                }
+
                 case sf::Event::Closed:
                     //FIXME here must be sending event "Close" to main queue
                     window.close();
                     break;
-
-                case sf::Event::KeyPressed:
-
-                    if (event.key.code == sf::Keyboard::Y) {
-                        //FIXME here must be code, explaining what to do if user says "YES"
-                    }
-
-                    if (event.key.code == sf::Keyboard::N){
-                        //FIXME here must be code, explaining what to do if user says "NO"
-                    }
             }
         }
     }
-    //FIXME Where is all events and all stuff?
+}
+
+void Start_Game(sf::RenderWindow& window)
+//This function asks main who is the first fucker and tell audio thread to start
+{
+    while (window.isOpen())
+    {
+        std::string First_Fucker_Name = "Bek.jpeg";
+        Send_Event_To_Queue();
+        //First_Fucker_Name = Who_is_Now();             //FIXME this function must give back first fuckers name
+        Battle(window, First_Fucker_Name);
+    }
 }
 
 void Create_Window()
@@ -82,8 +107,7 @@ void Create_Window()
                     }
 
                     if (event.key.code == sf::Keyboard::S) {
-                        //FIXME here must be sending event "Start" to main queue
-                        Game_Graphics(MainWindow);
+                        Start_Game(MainWindow);
                     }
                 }
 
@@ -95,9 +119,4 @@ void Create_Window()
             }
         }
     }
-}
-
-void Send_Event_To_Queue()
-{
-    //FIXME
 }
