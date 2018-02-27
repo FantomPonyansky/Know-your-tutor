@@ -1,0 +1,8 @@
+SFML/Graphics.hpp
+
+How to build:
+
+g++ -c main.cpp
+g++ -c graphics.cpp -std=c++11
+g++ main.o graphics.o -o main -lsfml-window -lsfml-graphics -lsfml-system
+./main

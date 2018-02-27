@@ -1,0 +1,14 @@
+__________KNOW__YOUR__FUCKER_____________
+
+Try to guess whether shown professor is fucker
+or not
+Use keys "Y" and "N" to let or not to let 
+him/her examine your knowlege of maths
+
+You'll be shown 10 different professors
+You have to choose one of them to examine you
+You'll have limited time for each choice and 
+only one try
+
+                Use "S" to start the game
+                    Use "Esc" to quit
