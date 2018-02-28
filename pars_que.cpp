@@ -69,10 +69,10 @@ void audio_play(std::string val){
 
 }
 
-void get_val_from_que(std::queue<std::string> &main_que){
+void get_val_from_que(std::queue<std::string>& main_que){
 
     std::string val = main_que.front();
-	main_que.pop;
+	main_que.pop();
 
     audio_play(val);
 
