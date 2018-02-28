@@ -159,14 +159,18 @@ void Battle(sf::RenderWindow& window, std::queue<std::string>& Fucker_Queue, std
                     if (event.key.code == sf::Keyboard::N) {
                         if (Is_A_Fucker(Fucker_Name)) {
                             EventQueue.push("11");
-                            if (Fucker_Queue.empty())
+                            if (Fucker_Queue.empty()) {
+                                EventQueue.push("10");
                                 Draw_Inscription(window, "You have been FUCKED", EventQueue, true);
+                            }
                             Battle(window, Fucker_Queue, EventQueue);
                         }
                         else {
                             EventQueue.push("00");
-                            if (Fucker_Queue.empty())
+                            if (Fucker_Queue.empty()) {
+                                EventQueue.push("10");
                                 Draw_Inscription(window, "You have been FUCKED", EventQueue, true);
+                            }
                             Battle(window, Fucker_Queue, EventQueue);
                         }
                     }
