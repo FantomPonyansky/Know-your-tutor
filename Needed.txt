@@ -1,8 +1,10 @@
 SFML/Graphics.hpp
+SFML/Audio.hpp
 
 How to build:
 
-g++ -c main.cpp
+g++ -c main.cpp -std=c++11
 g++ -c graphics.cpp -std=c++11
-g++ main.o graphics.o -o main -lsfml-window -lsfml-graphics -lsfml-system
+g++ -c parse_que.cpp -std=c++11
+g++ main.o graphics.o parse_que.o -o main -lsfml-window -lsfml-graphics -lsfml-system -lpthread -lsfml-audio -std=c++11
 ./main

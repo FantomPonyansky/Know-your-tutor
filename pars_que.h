@@ -8,6 +8,6 @@
 #ifndef PARS_QUE_PARS_QUE_H
 #define PARS_QUE_PARS_QUE_H
 
-void get_val_from_que(std::queue);
+void get_val_from_que(std::queue<std::string>& main_que);
 
 #endif //PARS_QUE_PARS_QUE_H

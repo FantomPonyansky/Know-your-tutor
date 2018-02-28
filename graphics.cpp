@@ -7,8 +7,10 @@
 #include <time.h>
 
 sf::Event event;
-sf::Clock Timer;
+sf::Clock Timer1;
+sf::Clock Timer2;
 float Time_Left;
+float Time_Wait = 5.0;
 unsigned int counter = 10;
 
 std::queue<std::string> Create_Fucker_Queue()
@@ -108,8 +110,8 @@ bool Is_A_Fucker(std::string Fucker_Name)
 
 void Battle(sf::RenderWindow& window, std::queue<std::string>& Fucker_Queue, std::queue<std::string>& EventQueue) {
     counter -= 1;
-    Timer.restart();
-    Time_Left -= 0.1;
+    Timer1.restart();
+    Time_Left -= 0.2;
     std::string Fucker_Name = Fucker_Queue.front();
     Fucker_Queue.pop();
     sf::Text How_Many_Tutors_Left;
@@ -121,70 +123,70 @@ void Battle(sf::RenderWindow& window, std::queue<std::string>& Fucker_Queue, std
     How_Many_Tutors_Left.setPosition(5, 5);
     std::string Warning_Sign = "Tutors left: " + std::to_string(counter);
     How_Many_Tutors_Left.setString(Warning_Sign);
-    while (window.isOpen()) {
-        window.clear();
-        window.draw(How_Many_Tutors_Left);
-        Draw_Fucker(window, "Fuckers/" + Fucker_Name);
-        window.display();
-        if (Timer.getElapsedTime().asSeconds() >= Time_Left)
-        {
-            if (Is_A_Fucker(Fucker_Name))
-            {
-                EventQueue.push("10");
-                Draw_Inscription(window, "You have been FUCKED", EventQueue, true);
-            }
-            else
-            {
-                EventQueue.push("01");
-                Draw_Inscription(window, "You are going down for ABRAMOVKA", EventQueue, false);
-            }
-        }
-        while (window.pollEvent(event)) {
-
-            switch (event.type) {
-
-                case sf::Event::KeyPressed: {
-
-                    if (event.key.code == sf::Keyboard::Y) {
-                        if (Is_A_Fucker(Fucker_Name)) {
-                            EventQueue.push("10");
-                            Draw_Inscription(window, "You have been FUCKED", EventQueue, true);
-                        }
-                        else {
-                            EventQueue.push("01");
-                            Draw_Inscription(window, "You are going down for ABRAMOVKA", EventQueue, false);
-                        }
+    while (true) {
+        if (Timer1.getElapsedTime().asSeconds() >= Time_Wait) {
+            Timer2.restart();
+            while (window.isOpen()) {
+                window.clear();
+                window.draw(How_Many_Tutors_Left);
+                Draw_Fucker(window, "Fuckers/" + Fucker_Name);
+                window.display();
+                if (Timer2.getElapsedTime().asSeconds() >= Time_Left) {
+                    if (Is_A_Fucker(Fucker_Name)) {
+                        EventQueue.push("10");
+                        Draw_Inscription(window, "You have been FUCKED", EventQueue, true);
+                    } else {
+                        EventQueue.push("01");
+                        Draw_Inscription(window, "You are going down for ABRAMOVKA", EventQueue, false);
                     }
+                }
+                while (window.pollEvent(event)) {
 
-                    if (event.key.code == sf::Keyboard::N) {
-                        if (Is_A_Fucker(Fucker_Name)) {
-                            EventQueue.push("11");
-                            if (Fucker_Queue.empty()) {
-                                EventQueue.push("10");
-                                Draw_Inscription(window, "You have been FUCKED", EventQueue, true);
+                    switch (event.type) {
+
+                        case sf::Event::KeyPressed: {
+
+                            if (event.key.code == sf::Keyboard::Y) {
+                                if (Is_A_Fucker(Fucker_Name)) {
+                                    EventQueue.push("10");
+                                    Draw_Inscription(window, "You have been FUCKED", EventQueue, true);
+                                } else {
+                                    EventQueue.push("01");
+                                    Draw_Inscription(window, "You are going down for ABRAMOVKA", EventQueue, false);
+                                }
                             }
-                            Battle(window, Fucker_Queue, EventQueue);
+
+                            if (event.key.code == sf::Keyboard::N) {
+                                if (Is_A_Fucker(Fucker_Name)) {
+                                    EventQueue.push("11");
+                                    if (Fucker_Queue.empty()) {
+                                        EventQueue.push("10");
+                                        Draw_Inscription(window, "You have been FUCKED", EventQueue, true);
+                                    }
+                                    Battle(window, Fucker_Queue, EventQueue);
+                                } else {
+                                    EventQueue.push("00");
+                                    if (Fucker_Queue.empty()) {
+                                        EventQueue.push("10");
+                                        Draw_Inscription(window, "You have been FUCKED", EventQueue, true);
+                                    }
+                                    Battle(window, Fucker_Queue, EventQueue);
+                                }
+                            }
                         }
-                        else {
-                            EventQueue.push("00");
-                            if (Fucker_Queue.empty()) {
-                                EventQueue.push("10");
-                                Draw_Inscription(window, "You have been FUCKED", EventQueue, true);
-                            }
-                            Battle(window, Fucker_Queue, EventQueue);
+
+                        case sf::Event::Closed: {
+                            EventQueue.push("30");
+                            window.close();
+                            break;
                         }
                     }
                 }
-
-                case sf::Event::Closed:
-                {
-                    EventQueue.push("30");
-                    window.close();
-                    break;
-                }
             }
+            break;
         }
     }
+
 }
 
 void Start_Game(sf::RenderWindow& window, std::queue<std::string>& EventQueue)
